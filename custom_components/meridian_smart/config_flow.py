@@ -7,7 +7,7 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_HOST, CONF_NAME
 from homeassistant.data_entry_flow import FlowResult
 
-from .const import DOMAIN, DEFAULT_NAME
+from .const import DOMAIN, DEFAULT_NAME, CONF_PRO_LICENSE
 from .meridian_client import MeridianClient
 
 
@@ -32,7 +32,13 @@ class MeridianConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 title = client.state.zone_name or user_input.get(CONF_NAME, DEFAULT_NAME)
                 await self.async_set_unique_id(f"meridian_{host}")
                 self._abort_if_unique_id_configured()
-                return self.async_create_entry(title=title, data={CONF_HOST: host})
+                return self.async_create_entry(
+                    title=title,
+                    data={
+                        CONF_HOST: host,
+                        CONF_PRO_LICENSE: user_input.get(CONF_PRO_LICENSE, ""),
+                    },
+                )
             else:
                 errors["base"] = "cannot_connect"
 
@@ -41,6 +47,7 @@ class MeridianConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema({
                 vol.Required(CONF_HOST): str,
                 vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
+                vol.Optional(CONF_PRO_LICENSE, default=""): str,
             }),
             errors=errors,
         )

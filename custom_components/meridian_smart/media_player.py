@@ -104,27 +104,37 @@ class MeridianMediaPlayer(MediaPlayerEntity):
 
     @property
     def media_title(self) -> Optional[str]:
+        if not self._client.pro_enabled:
+            return None
         return self._client.state.media_title or None
 
     @property
     def media_artist(self) -> Optional[str]:
+        if not self._client.pro_enabled:
+            return None
         return self._client.state.media_artist or None
 
     @property
     def media_album_name(self) -> Optional[str]:
+        if not self._client.pro_enabled:
+            return None
         return self._client.state.media_album or None
 
     @property
     def media_image_url(self) -> Optional[str]:
+        if not self._client.pro_enabled:
+            return None
         return self._client.state.media_image_url or None
 
     @property
     def extra_state_attributes(self) -> dict:
-        return {
+        attrs = {
             "product": self._client.state.product,
             "serial_number": self._client.state.serial,
             "protocol_version": self._client.state.protocol_version,
+            "pro_license": self._client.pro_enabled,
         }
+        return attrs
 
     # ------------------------------------------------------------------ #
     # HA service calls                                                     #
