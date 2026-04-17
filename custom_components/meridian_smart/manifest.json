@@ -1,0 +1,12 @@
+{
+  "domain": "meridian_smart",
+  "name": "Meridian Smart",
+  "version": "1.0.0",
+  "documentation": "https://github.com/wooniot/ha-meridian-smart",
+  "issue_tracker": "https://github.com/wooniot/ha-meridian-smart/issues",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@wooniot"],
+  "iot_class": "local_push",
+  "config_flow": true
+}
